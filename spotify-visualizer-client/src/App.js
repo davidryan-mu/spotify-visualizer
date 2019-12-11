@@ -117,7 +117,8 @@ export default class App extends Component {
               <div style={{position: "absolute", left: "10px", bottom: "10px"}}>
                 <img src={this.state.nowPlaying.image} style={{width: "200px", display: "inline-block"}}/>
                 <div style={{display: "inline-block", paddingLeft: "10px"}}>
-                  <h1><span style={{backgroundColor: "#000", color: "#fff", paddingLeft: "10px", paddingRight: "10px"}}>{this.state.nowPlaying.name}</span></h1>
+                  <h1><span style={{backgroundColor: "#000", color: "#fff", paddingLeft: "10px", paddingRight: "10px", float: "left"}}>{this.state.nowPlaying.name}</span></h1>
+                  <br /> <br />
                   <h4><span style={{backgroundColor: "#000", color: "#fff", paddingLeft: "5px", paddingRight: "5px", float: "left"}}>{this.state.nowPlaying.artist}</span></h4>
                 </div>
               </div>

@@ -1,5 +1,3 @@
-import p5 from "p5";
-
 export default function sketch(p) {
     let loudness = 0;
     let isPlaying = true;
@@ -7,11 +5,7 @@ export default function sketch(p) {
     var c;
 
     // :: Beat Detect Variables
-    // how many draw loop frames before the beatCutoff starts to decay
-    // so that another beat can be triggered.
-    // frameRate() is usually around 60 frames per second,
-    // so 20 fps = 3 beats per second, meaning if the song is over 180 BPM,
-    // we wont respond to every beat.
+    // Credit to therewasaguy for having very helpful examples on beat detection
     var beatHoldFrames = 30;
 
     // what amplitude level can trigger a beat?
@@ -52,13 +46,14 @@ export default function sketch(p) {
     var w = p.width/ (prevLevels.length * spacing);
   
     var minHeight = 2;
-    if(isPlaying == false) {
+    if(isPlaying === false) {
+      //if song is paused, push 0's to array
         prevLevels.push(0);
     } else {
+      // add new level to end of array
         prevLevels.push(loudness);
     }
   
-    // add new level to end of array
   
     // remove first item in array
     prevLevels.splice(0, 1);

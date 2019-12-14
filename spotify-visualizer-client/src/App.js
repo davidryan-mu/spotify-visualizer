@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import P5Wrapper from 'react-p5-wrapper';
 import sketch from './sketch';
 import backgroundSketch from './backgroundSketch';
+import logo from './logo_black.png';
 
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -127,7 +128,8 @@ export default class App extends Component {
             </div>
             :
             <div>
-              <div style={{position: "fixed", top: "50%", left: "50%", marginTop: "-70px", marginLeft: "-170px"}}>
+              <div style={{position: "fixed", top: "50%", left: "50%", marginTop: "-200px", marginLeft: "-170px"}}>
+                <img src={logo} alt="Logo" width="250px" style={{marginBottom: "15px"}}/>
                 <h1><span style={{backgroundColor: "#000", color: "#fff", paddingLeft: "10px", paddingRight: "10px"}}>Spotify Visualizer</span></h1>
                 <br/ >
                 <Button variant="success" size="lg" href="http://localhost:8888">Login With Spotify</Button>

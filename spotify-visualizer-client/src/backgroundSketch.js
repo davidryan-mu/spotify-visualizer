@@ -1,5 +1,3 @@
-import p5 from "p5";
-
 export default function sketch(p) {
   let c;
 
@@ -25,7 +23,7 @@ export default function sketch(p) {
 
   function setGradient(x, y, w, h, c1, c2, axis) {
     p.noFill();
-    if (axis == "Y") {  // Top to bottom gradient
+    if (axis === "Y") {  // Top to bottom gradient
       for (let i = y; i <= y+h; i++) {
         var inter = p.map(i, y, y+h, 0, 1);
         var c = p.lerpColor(c1, c2, inter);
@@ -33,7 +31,7 @@ export default function sketch(p) {
         p.line(x, i, x+w, i);
       }
     }  
-    else if (axis == "X") {  // Left to right gradient
+    else if (axis === "X") {  // Left to right gradient
       for (let j = x; j <= x+w; j++) {
         var inter2 = p.map(j, x, x+w, 0, 1);
         var d = p.lerpColor(c1, c2, inter2);

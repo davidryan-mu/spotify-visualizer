@@ -19,7 +19,7 @@ export default class App extends Component {
     this.state = {
       loggedIn: params.access_token ? true : false,
       nowPlaying: {
-        name: "Nothing Playing",
+        name: "Play Something on Spotify",
         artist: "",
         image: "",
         id: "",
@@ -43,6 +43,7 @@ export default class App extends Component {
     return hashParams;
   }
 
+  //Get information about current playback state every second and update component
   componentDidMount() {
     this.interval = setInterval(() => {
       spotifyWebAPI.getMyCurrentPlaybackState()
@@ -59,19 +60,21 @@ export default class App extends Component {
               isPlaying: response.is_playing
             }
           })
-          console.log(response);
         }
       })
     }, 1000);
   }
 
+  //Reset interval
   componentWillUnmount() {
     clearInterval(this.interval);
     clearInterval(this.interval1);
   }
 
+  //Before component updates every second, check if song has changed or paused
   componentWillUpdate(nextProps, nextState) {
     if(nextState.nowPlaying.id !== this.state.nowPlaying.id || nextState.nowPlaying.isPlaying !== this.state.nowPlaying.isPlaying) {
+      //Grab audio analysis for song from API
       spotifyWebAPI.getAudioAnalysisForTrack(nextState.nowPlaying.id)
       .then((response) => {
         if(response) {
@@ -89,21 +92,27 @@ export default class App extends Component {
         }
       })
       .then(() => {
+        //Loop through array of loudness values and update state
         let i = 0;
             this.interval1 = setInterval(() => {
-              this.setState({
-                nowPlaying: {
-                  name: this.state.nowPlaying.name,
-                  artist: this.state.nowPlaying.artist,
-                  image: this.state.nowPlaying.image,
-                  id: this.state.nowPlaying.id,
-                  loudness_response: this.state.nowPlaying.loudness_response,
-                  current_loudness: this.state.nowPlaying.loudness_response.segments[i].loudness_max,
-                  isPlaying: this.state.nowPlaying.isPlaying
-                }
-              })
-              if(i < this.state.nowPlaying.loudness_response.segments.length - 10)
-                i++;
+              try {
+                if(i < this.state.nowPlaying.loudness_response.segments.length) {
+                  this.setState({
+                    nowPlaying: {
+                      name: this.state.nowPlaying.name,
+                      artist: this.state.nowPlaying.artist,
+                      image: this.state.nowPlaying.image,
+                      id: this.state.nowPlaying.id,
+                      loudness_response: this.state.nowPlaying.loudness_response,
+                      current_loudness: this.state.nowPlaying.loudness_response.segments[i].loudness_max,
+                      isPlaying: this.state.nowPlaying.isPlaying
+                    }
+                  });
+                  i++;
+              }
+              } catch(e) {
+                console.log(e);
+              }
             }, 100);
       })
     }
